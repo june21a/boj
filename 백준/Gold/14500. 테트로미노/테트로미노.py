@@ -39,13 +39,14 @@ def get_block_by_number(block, number):
 # block making
 blocks = [
     [[0, 0], [0, 1], [0, 2], [0, 3]],
+    [[0, 0], [1, 0], [2, 0], [3, 0]],
     [[0, 0], [0, 1], [1, 0], [1, 1]],
     [[0, 0], [1, 0], [2, 0], [2, 1]],
     [[0, 0], [1, 0], [1, 1], [2, 1]],
     [[0, 0], [0, 1], [1, 1], [0, 2]]
 ]
 additional_block = []
-for block in blocks:
+for block in blocks[3:]:
     for i in range(1, 8):
         additional_block.append(get_block_by_number(copy.deepcopy(block), i))
 blocks.extend(additional_block)
@@ -58,8 +59,9 @@ for i in range(N):
             poses = [[i+dy, j+dx] for dy, dx in block]
             
             for (y, x) in poses:
-                if check_idx(y, x):
-                    S += score_map[y][x]
+                if not check_idx(y, x):
+                    break
+                S += score_map[y][x]
 
             ans = max(ans, S)
 print(ans)
